@@ -302,15 +302,14 @@ class RobertaForSequenceClassification(BertPreTrainedModel):
         return input_ids
 
     def __init__(self, config):
-        logger.info("configgg")
         super().__init__(config)
         self.num_labels = config.num_labels
         self.roberta = RobertaModel(config)
-
+        logger.info("configgg")
         logger.info(config)
 
         # For TextHide
-        #self.num_sigma = config.num_sigma
+        self.num_sigma = config.num_sigma
         #self.num_k = config.num_k
         #self.small_cls = config.small_cls
 

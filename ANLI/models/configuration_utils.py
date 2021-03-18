@@ -381,11 +381,14 @@ class PretrainedConfig(object):
             if hasattr(config, key):
                 setattr(config, key, value)
                 to_remove.append(key)
+        logger.info("kwargss")
+        logger.info(kwargs)
         for key in to_remove:
             kwargs.pop(key, None)
-
+        logger.info("Utilsss")
         logger.info("Model config %s", str(config))
         if return_unused_kwargs:
+            logger.info("yes")
             return config, kwargs
         else:
             return config

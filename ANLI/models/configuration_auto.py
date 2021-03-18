@@ -191,9 +191,9 @@ class AutoConfig:
             assert unused_kwargs == {'foo': False}
         """
         config_dict, _ = PretrainedConfig.get_config_dict(pretrained_model_name_or_path, **kwargs)
-
         if "model_type" in config_dict:
             config_class = CONFIG_MAPPING[config_dict["model_type"]]
+            logger.info(config_class.from_dict(config_dict, **kwargs))
             return config_class.from_dict(config_dict, **kwargs)
         else:
             # Fallback: use pattern matching on the string.

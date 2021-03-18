@@ -26,7 +26,8 @@ import numpy as np
 import torch
 
 from models.configuration_auto import AutoConfig
-from transformers import AutoTokenizer, EvalPrediction
+from models.tokenization_auto import AutoTokenizer
+from transformers import EvalPrediction
 from models.modeling_auto import AutoModelForSequenceClassification
 from MI_estimators import CLUB, CLUBv2, InfoNCE
 from datasets.anli import GlueDataset, GlueDataTrainingArguments as DataTrainingArguments
@@ -134,6 +135,8 @@ def main():
     # The .from_pretrained methods guarantee that only one local process can concurrently
     # download model & vocab.
 
+    logger.info(training_args.num_k)
+
     config = AutoConfig.from_pretrained(
         model_args.config_name if model_args.config_name else model_args.model_name_or_path,
         num_labels=num_labels,
@@ -143,8 +146,11 @@ def main():
         num_k=training_args.num_k,
         output_hidden_states=True,
         attention_probs_dropout_prob=training_args.attention_probs_dropout_prob,
-        hidden_dropout_prob=training_args.hidden_dropout_prob
+        hidden_dropout_prob=training_args.hidden_dropout_prob,
+        #small_cls=training_args.small_cls
     )
+    logger.info("configgg from run")
+    logger.info(config)
     tokenizer = AutoTokenizer.from_pretrained(
         model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
         cache_dir=model_args.cache_dir,
