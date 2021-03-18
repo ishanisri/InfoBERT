@@ -147,7 +147,7 @@ class TrainingArguments:
     #texthide args
     num_k: int = field(default=4, metadata={"help": "Number of embeddings in each mixing."})
     num_sigma: int = field(default=16, metadata={"help": "Size of the mask pool."})
-    logger.info("Came here - **** ")
+    
 
     @property
     def train_batch_size(self) -> int:
@@ -173,6 +173,8 @@ class TrainingArguments:
     @torch_required
     def _setup_devices(self) -> Tuple["torch.device", int]:
         logger.info("PyTorch: setting up devices")
+        logger.info("Values - ", self.num_k)
+        logger.info("values -", self.num_sigma)
         if self.no_cuda:
             device = torch.device("cpu")
             n_gpu = 0
