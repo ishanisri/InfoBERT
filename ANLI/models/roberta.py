@@ -302,6 +302,8 @@ class RobertaForSequenceClassification(BertPreTrainedModel):
         return input_ids
 
     def __init__(self, config):
+        logger.info("configgg")
+        logger.info(config)
         super().__init__(config)
         self.num_labels = config.num_labels
         self.roberta = RobertaModel(config)
@@ -381,27 +383,27 @@ class RobertaForSequenceClassification(BertPreTrainedModel):
         )
         # TextHide
 
-        sequence_output_pub = None
-        if input_ids_pub is not None:
-            input_ids_pub = input_ids_pub[:len(input_ids)]  
+        #sequence_output_pub = None
+        #if input_ids_pub is not None:
+        #    input_ids_pub = input_ids_pub[:len(input_ids)]  
             #token_type_ids_pub = token_type_ids_pub[:len(token_type_ids)] # truncate to match size
-            outputs_pub = self.roberta(
-                input_ids_pub,
-                attention_mask=attention_mask,
-                token_type_ids=token_type_ids_pub,
-                position_ids=position_ids,
-            )
-            sequence_output_pub = outputs_pub[0][:,0,:]
+         #   outputs_pub = self.roberta(
+         #       input_ids_pub,
+         #       attention_mask=attention_mask,
+         #       token_type_ids=token_type_ids_pub,
+         #       position_ids=position_ids,
+          #  )
+         #   sequence_output_pub = outputs_pub[0][:,0,:]
 
-        if labels is not None:
-            sequence_output, mix_labels, lams = mixup(
-                sequence_output, labels, k=self.num_k, embeds_help=sequence_output_pub)
+        #if labels is not None:
+         #   sequence_output, mix_labels, lams = mixup(
+         #       sequence_output, labels, k=self.num_k, embeds_help=sequence_output_pub)
         
-        sequence_output = self.apply_mask(sequence_output)
-        logits = self.classifier(sequence_output)
-
-        #sequence_output = outputs[0]
+        #sequence_output = self.apply_mask(sequence_output)
         #logits = self.classifier(sequence_output)
+
+        sequence_output = outputs[0]
+        logits = self.classifier(sequence_output)
 
         outputs = (logits,) + outputs[2:]
         if labels is not None:
