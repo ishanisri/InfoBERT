@@ -304,6 +304,10 @@ class RobertaForSequenceClassification(BertPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
         self.num_labels = config.num_labels
+        self.roberta = RobertaModel(config)
+
+        print("config")
+
         # For TextHide
         self.num_sigma = config.num_sigma
         self.num_k = config.num_k
