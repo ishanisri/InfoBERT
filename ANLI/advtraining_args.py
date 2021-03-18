@@ -173,8 +173,8 @@ class TrainingArguments:
     @torch_required
     def _setup_devices(self) -> Tuple["torch.device", int]:
         logger.info("PyTorch: setting up devices")
-        logger.info("Values - ", self.num_k)
-        logger.info("values -", self.num_sigma)
+        logger.info(self.num_k)
+        logger.info(self.num_sigma)
         if self.no_cuda:
             device = torch.device("cpu")
             n_gpu = 0
