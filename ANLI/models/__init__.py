@@ -1,3 +1,5 @@
+__version__ = "3.0.2"s
+
 # from .configuration_albert import ALBERT_PRETRAINED_CONFIG_ARCHIVE_MAP, AlbertConfig
 from .configuration_auto import ALL_PRETRAINED_CONFIG_ARCHIVE_MAP, CONFIG_MAPPING, AutoConfig
 # from .configuration_bart import BartConfig
