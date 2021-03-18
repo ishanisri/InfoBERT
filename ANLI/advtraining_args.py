@@ -147,7 +147,7 @@ class TrainingArguments:
     #texthide args
     num_k: int = field(default=4, metadata={"help": "Number of embeddings in each mixing."})
     num_sigma: int = field(default=16, metadata={"help": "Size of the mask pool."})
-    print("came here")
+    logger.info("Came here - **** ")
 
     @property
     def train_batch_size(self) -> int:
