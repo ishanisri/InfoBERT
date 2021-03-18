@@ -303,7 +303,6 @@ class RobertaForSequenceClassification(BertPreTrainedModel):
 
     def __init__(self, config):
         logger.info("configgg")
-        logger.info(config)
         super().__init__(config)
         self.num_labels = config.num_labels
         self.roberta = RobertaModel(config)

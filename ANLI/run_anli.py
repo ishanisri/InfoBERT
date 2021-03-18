@@ -25,7 +25,8 @@ from typing import Callable, Dict, Optional
 import numpy as np
 import torch
 
-from transformers import AutoConfig, AutoTokenizer, EvalPrediction
+from models.configuration_auto import AutoConfig
+from transformers import AutoTokenizer, EvalPrediction
 from models.modeling_auto import AutoModelForSequenceClassification
 from MI_estimators import CLUB, CLUBv2, InfoNCE
 from datasets.anli import GlueDataset, GlueDataTrainingArguments as DataTrainingArguments
