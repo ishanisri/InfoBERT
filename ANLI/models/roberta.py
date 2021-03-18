@@ -309,18 +309,18 @@ class RobertaForSequenceClassification(BertPreTrainedModel):
         print(config)
 
         # For TextHide
-        self.num_sigma = config.num_sigma
-        self.num_k = config.num_k
-        self.small_cls = config.small_cls
+        #self.num_sigma = config.num_sigma
+        #self.num_k = config.num_k
+        #self.small_cls = config.small_cls
 
-        self.classifier = RobertaClassificationHead(config, small_cls=self.small_cls)
-        self.init_weights()
+        #self.classifier = RobertaClassificationHead(config, small_cls=self.small_cls)
+        #self.init_weights()
 
-        self.generate_mask_pool()
-        print('TextHide parameters:', self.num_sigma, self.num_k)
+        #self.generate_mask_pool()
+        #print('TextHide parameters:', self.num_sigma, self.num_k)
 
         #self.roberta = RobertaModel(config)
-        #self.classifier = RobertaClassificationHead(config)
+        self.classifier = RobertaClassificationHead(config)
 
     @add_start_docstrings_to_callable(ROBERTA_INPUTS_DOCSTRING.format("(batch_size, sequence_length)"))
     def forward(
