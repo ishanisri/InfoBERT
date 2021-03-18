@@ -150,11 +150,12 @@ def main():
         #small_cls=training_args.small_cls
     )
     logger.info("configgg from run")
-    logger.info(config)
+    
     tokenizer = AutoTokenizer.from_pretrained(
         model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
         cache_dir=model_args.cache_dir,
     )
+    logger.info(config)
     model = AutoModelForSequenceClassification.from_pretrained(
         model_args.model_name_or_path,
         from_tf=bool(".ckpt" in model_args.model_name_or_path),

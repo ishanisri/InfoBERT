@@ -18,27 +18,27 @@
 import logging
 from collections import OrderedDict
 
-from transformers.configuration_auto import (
-    AlbertConfig,
+from .configuration_auto import (
+    #AlbertConfig,
     AutoConfig,
-    BartConfig,
+    #BartConfig,
     BertConfig,
-    CamembertConfig,
-    CTRLConfig,
-    DistilBertConfig,
-    ElectraConfig,
-    EncoderDecoderConfig,
-    FlaubertConfig,
-    GPT2Config,
-    LongformerConfig,
-    OpenAIGPTConfig,
-    ReformerConfig,
+    #CamembertConfig,
+    #CTRLConfig,
+    #DistilBertConfig,
+    #ElectraConfig,
+    #EncoderDecoderConfig,
+    #FlaubertConfig,
+    #GPT2Config,
+    #LongformerConfig,
+    #OpenAIGPTConfig,
+    #ReformerConfig,
     RobertaConfig,
-    T5Config,
-    TransfoXLConfig,
-    XLMConfig,
-    XLMRobertaConfig,
-    XLNetConfig,
+    #T5Config,
+    #TransfoXLConfig,
+    #XLMConfig,
+    #XLMRobertaConfig,
+    #XLNetConfig,
 )
 from transformers.configuration_marian import MarianConfig
 from transformers.configuration_utils import PretrainedConfig
@@ -140,128 +140,78 @@ logger = logging.getLogger(__name__)
 
 MODEL_MAPPING = OrderedDict(
     [
-        (T5Config, T5Model),
-        (DistilBertConfig, DistilBertModel),
-        (AlbertConfig, AlbertModel),
-        (CamembertConfig, CamembertModel),
-        (XLMRobertaConfig, XLMRobertaModel),
-        (BartConfig, BartModel),
-        (LongformerConfig, LongformerModel),
+        #(T5Config, T5Model),
+        #(DistilBertConfig, DistilBertModel),
+        #(AlbertConfig, AlbertModel),
+        #(CamembertConfig, CamembertModel),
+        #(XLMRobertaConfig, XLMRobertaModel),
+        #(BartConfig, BartModel),
+        #(LongformerConfig, LongformerModel),
         (RobertaConfig, RobertaModel),
         (BertConfig, BertModel),
-        (OpenAIGPTConfig, OpenAIGPTModel),
-        (GPT2Config, GPT2Model),
-        (TransfoXLConfig, TransfoXLModel),
-        (XLNetConfig, XLNetModel),
-        (FlaubertConfig, FlaubertModel),
-        (XLMConfig, XLMModel),
-        (CTRLConfig, CTRLModel),
-        (ElectraConfig, ElectraModel),
-        (ReformerConfig, ReformerModel),
+        #(OpenAIGPTConfig, OpenAIGPTModel),
+        #(GPT2Config, GPT2Model),
+        #(TransfoXLConfig, TransfoXLModel),
+        #(XLNetConfig, XLNetModel),
+        #(FlaubertConfig, FlaubertModel),
+        #(XLMConfig, XLMModel),
+        #(CTRLConfig, CTRLModel),
+        #(ElectraConfig, ElectraModel),
+        #(ReformerConfig, ReformerModel),
     ]
 )
 
 MODEL_FOR_PRETRAINING_MAPPING = OrderedDict(
     [
-        (T5Config, T5ForConditionalGeneration),
-        (DistilBertConfig, DistilBertForMaskedLM),
-        (AlbertConfig, AlbertForPreTraining),
-        (CamembertConfig, CamembertForMaskedLM),
-        (XLMRobertaConfig, XLMRobertaForMaskedLM),
-        (BartConfig, BartForConditionalGeneration),
-        (LongformerConfig, LongformerForMaskedLM),
+        
         (RobertaConfig, RobertaForMaskedLM),
         (BertConfig, BertForPreTraining),
-        (OpenAIGPTConfig, OpenAIGPTLMHeadModel),
-        (GPT2Config, GPT2LMHeadModel),
-        (TransfoXLConfig, TransfoXLLMHeadModel),
-        (XLNetConfig, XLNetLMHeadModel),
-        (FlaubertConfig, FlaubertWithLMHeadModel),
-        (XLMConfig, XLMWithLMHeadModel),
-        (CTRLConfig, CTRLLMHeadModel),
-        (ElectraConfig, ElectraForPreTraining),
+        
     ]
 )
 
 MODEL_WITH_LM_HEAD_MAPPING = OrderedDict(
     [
-        (T5Config, T5ForConditionalGeneration),
-        (DistilBertConfig, DistilBertForMaskedLM),
-        (AlbertConfig, AlbertForMaskedLM),
-        (CamembertConfig, CamembertForMaskedLM),
-        (XLMRobertaConfig, XLMRobertaForMaskedLM),
-        (MarianConfig, MarianMTModel),
-        (BartConfig, BartForConditionalGeneration),
-        (LongformerConfig, LongformerForMaskedLM),
+        
         (RobertaConfig, RobertaForMaskedLM),
         (BertConfig, BertForMaskedLM),
-        (OpenAIGPTConfig, OpenAIGPTLMHeadModel),
-        (GPT2Config, GPT2LMHeadModel),
-        (TransfoXLConfig, TransfoXLLMHeadModel),
-        (XLNetConfig, XLNetLMHeadModel),
-        (FlaubertConfig, FlaubertWithLMHeadModel),
-        (XLMConfig, XLMWithLMHeadModel),
-        (CTRLConfig, CTRLLMHeadModel),
-        (ElectraConfig, ElectraForMaskedLM),
-        (EncoderDecoderConfig, EncoderDecoderModel),
-        (ReformerConfig, ReformerModelWithLMHead),
+        
     ]
 )
 
 MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING = OrderedDict(
     [
-        (DistilBertConfig, DistilBertForSequenceClassification),
-        (AlbertConfig, AlbertForSequenceClassification),
-        (CamembertConfig, CamembertForSequenceClassification),
-        (XLMRobertaConfig, XLMRobertaForSequenceClassification),
-        (BartConfig, BartForSequenceClassification),
-        (LongformerConfig, LongformerForSequenceClassification),
+        
         (RobertaConfig, RobertaForSequenceClassification),
-        (BertConfig, BertForSequenceClassification),
-        (XLNetConfig, XLNetForSequenceClassification),
-        (FlaubertConfig, FlaubertForSequenceClassification),
-        (XLMConfig, XLMForSequenceClassification),
-        (ElectraConfig, ElectraForSequenceClassification),
+        
     ]
 )
 
 MODEL_FOR_QUESTION_ANSWERING_MAPPING = OrderedDict(
     [
-        (DistilBertConfig, DistilBertForQuestionAnswering),
-        (AlbertConfig, AlbertForQuestionAnswering),
-        (LongformerConfig, LongformerForQuestionAnswering),
+        
         (RobertaConfig, RobertaForQuestionAnswering),
         (BertConfig, BertForQuestionAnswering),
-        (XLNetConfig, XLNetForQuestionAnsweringSimple),
-        (FlaubertConfig, FlaubertForQuestionAnsweringSimple),
-        (XLMConfig, XLMForQuestionAnsweringSimple),
+        
     ]
 )
 
 MODEL_FOR_TOKEN_CLASSIFICATION_MAPPING = OrderedDict(
     [
-        (DistilBertConfig, DistilBertForTokenClassification),
-        (CamembertConfig, CamembertForTokenClassification),
-        (XLMConfig, XLMForTokenClassification),
-        (XLMRobertaConfig, XLMRobertaForTokenClassification),
-        (LongformerConfig, LongformerForTokenClassification),
+        
         (RobertaConfig, RobertaForTokenClassification),
         (BertConfig, BertForTokenClassification),
-        (XLNetConfig, XLNetForTokenClassification),
-        (AlbertConfig, AlbertForTokenClassification),
-        (ElectraConfig, ElectraForTokenClassification),
+       
     ]
 )
 
 
 MODEL_FOR_MULTIPLE_CHOICE_MAPPING = OrderedDict(
     [
-        (CamembertConfig, CamembertForMultipleChoice),
-        (XLMRobertaConfig, XLMRobertaForMultipleChoice),
-        (LongformerConfig, LongformerForMultipleChoice),
+        
         (RobertaConfig, RobertaForMultipleChoice),
         (BertConfig, BertForMultipleChoice),
-        (XLNetConfig, XLNetForMultipleChoice),
+        
     ]
 )
 
@@ -772,8 +722,12 @@ class AutoModelForSequenceClassification:
             config = AutoConfig.from_json_file('./tf_model/bert_tf_model_config.json')
             model = AutoModelForSequenceClassification.from_pretrained('./tf_model/bert_tf_checkpoint.ckpt.index', from_tf=True, config=config)
         """
+        logger.info("Modelinggg config")
+        #logger.info(config)
         config = kwargs.pop("config", None)
+        logger.info(config)
         if not isinstance(config, PretrainedConfig):
+            logger.info("not an instance")
             config = AutoConfig.from_pretrained(pretrained_model_name_or_path, **kwargs)
 
         for config_class, model_class in MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING.items():
