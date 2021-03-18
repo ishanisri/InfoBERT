@@ -144,6 +144,9 @@ class TrainingArguments:
     attention_probs_dropout_prob: Optional[float] = field(default=0)
     cl: Optional[float] = field(default=0.5)
     ch: Optional[float] = field(default=0.9)
+    #texthide args
+    num_k: int = field(default=4, metadata={"help": "Number of embeddings in each mixing."})
+    num_sigma: int = field(default=16, metadata={"help": "Size of the mask pool."})
 
     @property
     def train_batch_size(self) -> int:

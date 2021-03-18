@@ -25,6 +25,9 @@ asteps=${18}   # Number of gradient ascent steps for the adversary
 alpha=${19}   # alpha for controlling local robust regularizer
 cl=${20}   # lower threshold
 ch=${21}   # higher threshold
+num_sigma=${22} 
+num_k=${23}
+texthide=${24}
 
 if [ -z "${20}" ] ;then
     cl=0.5
@@ -68,7 +71,8 @@ fi
 
 port=$(($RANDOM + 1024))
 echo "Master port: ${port}"
-python -m torch.distributed.launch --nproc_per_node=1 --master_port ${port} ./run_anli.py \
+if [ -z "${24}" ]; then
+  python3 -m torch.distributed.launch --nproc_per_node=1 --master_port ${port} ./run_anli.py \
   --model_name_or_path ${mname} \
   --task_name $TASK_NAME \
   --do_train  \
@@ -89,6 +93,32 @@ python -m torch.distributed.launch --nproc_per_node=1 --master_port ${port} ./ru
   --hidden_dropout_prob ${hdp} --attention_probs_dropout_prob ${adp}  --overwrite_output_dir  \
   --adv_lr ${alr} --adv_init_mag ${amag} --adv_max_norm ${anorm} --adv_steps ${asteps} --alpha ${alpha} \
    --cl ${cl} --ch ${ch}
+
+else 
+
+  python3 -m torch.distributed.launch --nproc_per_node=1 --master_port ${port} ./run_anli.py \
+    --model_name_or_path ${mname} \
+    --task_name $TASK_NAME \
+    --do_train  \
+    --do_eval \
+    --data_dir $GLUE_DIR \
+    --max_seq_length ${seqlen} \
+    --per_device_train_batch_size ${bsize} \
+    --learning_rate ${lr} \
+    --max_steps ${ts} \
+    --warmup_steps ${ws} \
+    --weight_decay ${wd} \
+    --seed ${seed} \
+    --beta ${beta} \
+    --logging_dir ${expname} \
+    --output_dir ${expname} \
+    --version ${version}  --evaluate_during_training\
+    --logging_steps 500 --save_steps 500 \
+    --hidden_dropout_prob ${hdp} --attention_probs_dropout_prob ${adp}  --overwrite_output_dir  \
+    --adv_lr ${alr} --adv_init_mag ${amag} --adv_max_norm ${anorm} --adv_steps ${asteps} --alpha ${alpha} \
+    --cl ${cl} --ch ${ch} --num_sigma ${num_sigma} --num_k ${num_k}
+   echo "with texthide"
+fi
 }
 
 
@@ -126,31 +156,58 @@ asteps=1   # Number of gradient ascent steps for the adversary
 alpha=0   # alpha for controlling local robust regularizer
 cl=0   # lower threshold
 ch=0   # higher threshold
+num_sigma = ${22}
+num_k = ${23}
 
 expname=${custom}-load
 port=$(($RANDOM + 1024))
 echo "Master port: ${port}"
+if [ -z "${24}" ]; then
 
-python -m torch.distributed.launch --nproc_per_node=1 --master_port ${port}  ./run_anli.py \
-  --model_name_or_path ${mname} \
-  --task_name $TASK_NAME \
-  --do_eval \
-  --data_dir $GLUE_DIR \
-  --max_seq_length ${seqlen} \
-  --per_device_train_batch_size ${bsize} \
-  --learning_rate 3e-5 \
-  --max_steps ${ts} \
-  --warmup_steps ${ws} \
-  --weight_decay ${wd} \
-  --seed ${seed} \
-  --beta ${beta} \
-  --logging_dir ${expname} \
-  --output_dir ${expname} \
-  --version ${version} \
-  --logging_steps 100 --save_steps 100 \
-  --hidden_dropout_prob ${hdp} --attention_probs_dropout_prob ${adp}  --evaluate_during_training \
-  --adv_lr ${alr} --adv_init_mag ${amag} --adv_max_norm ${anorm} --adv_steps ${asteps} --overwrite_output_dir \
-  --alpha ${alpha} --cl ${cl} --ch ${ch}
+  python3 -m torch.distributed.launch --nproc_per_node=1 --master_port ${port}  ./run_anli.py \
+    --model_name_or_path ${mname} \
+    --task_name $TASK_NAME \
+    --do_eval \
+    --data_dir $GLUE_DIR \
+    --max_seq_length ${seqlen} \
+    --per_device_train_batch_size ${bsize} \
+    --learning_rate 3e-5 \
+    --max_steps ${ts} \
+    --warmup_steps ${ws} \
+    --weight_decay ${wd} \
+    --seed ${seed} \
+    --beta ${beta} \
+    --logging_dir ${expname} \
+    --output_dir ${expname} \
+    --version ${version} \
+    --logging_steps 100 --save_steps 100 \
+    --hidden_dropout_prob ${hdp} --attention_probs_dropout_prob ${adp}  --evaluate_during_training \
+    --adv_lr ${alr} --adv_init_mag ${amag} --adv_max_norm ${anorm} --adv_steps ${asteps} --overwrite_output_dir \
+    --alpha ${alpha} --cl ${cl} --ch ${ch} 
+else 
+  python3 -m torch.distributed.launch --nproc_per_node=1 --master_port ${port}  ./run_anli.py \
+      --model_name_or_path ${mname} \
+      --task_name $TASK_NAME \
+      --do_eval \
+      --data_dir $GLUE_DIR \
+      --max_seq_length ${seqlen} \
+      --per_device_train_batch_size ${bsize} \
+      --learning_rate 3e-5 \
+      --max_steps ${ts} \
+      --warmup_steps ${ws} \
+      --weight_decay ${wd} \
+      --seed ${seed} \
+      --beta ${beta} \
+      --logging_dir ${expname} \
+      --output_dir ${expname} \
+      --version ${version} \
+      --logging_steps 100 --save_steps 100 \
+      --hidden_dropout_prob ${hdp} --attention_probs_dropout_prob ${adp}  --evaluate_during_training \
+      --adv_lr ${alr} --adv_init_mag ${amag} --adv_max_norm ${anorm} --adv_steps ${asteps} --overwrite_output_dir \
+      --alpha ${alpha} --cl ${cl} --ch ${ch} --num_sigma ${num_sigma} --num_k ${num_k}
+    echo " with texthide"
+  fi
+    
 
 tail -n +1 "${expname}"/eval_results*.txt > "${expname}"/eval_results.txt
 cat "${expname}"/eval_results.txt

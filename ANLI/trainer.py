@@ -537,7 +537,24 @@ class Trainer:
                         self._log(logs)
 
                         if self.args.evaluate_during_training:
-                            self.evaluate()
+                            # Evaluation
+                            tmp = model.num_k
+                            print(f'Train model, k = {model.num_k}')
+                            model.num_k = 1
+                            print(f'Eval model, k = {model.num_k}')
+                            result = self.evaluate()    # Important! During inference, no mixing
+                            model.num_k = tmp 
+                        
+                        # Save logs per epoch
+                        eval_datasets = [self.eval_dataset]
+                        for eval_dataset in eval_datasets:
+                            output_eval_file = os.path.join(
+                            self.args.output_dir, f"eval_results_{eval_dataset.args.task_name}.txt")
+                            with open(output_eval_file, "a") as writer:
+                                writer.write("**********\n")
+                                for key, value in result.items():
+                                    logger.info("  %s = %s", key, value)
+                                    writer.write("%s = %s\n" % (key, value))
 
                     if self.args.save_steps > 0 and self.global_step % self.args.save_steps == 0:
                         # In all cases (even distributed/parallel), self.model is always a reference

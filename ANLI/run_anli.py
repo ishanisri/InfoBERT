@@ -138,6 +138,8 @@ def main():
         num_labels=num_labels,
         finetuning_task=data_args.task_name,
         cache_dir=model_args.cache_dir,
+        num_sigma= training_args.num_sigma,
+        num_k=training_args.num_k,
         output_hidden_states=True,
         attention_probs_dropout_prob=training_args.attention_probs_dropout_prob,
         hidden_dropout_prob=training_args.hidden_dropout_prob
@@ -287,9 +289,14 @@ def main():
                     )
 
         for eval_dataset in eval_datasets:
+            #trainer.compute_metrics = build_compute_metrics_fn(eval_dataset.args.task_name)
+            #eval_result = trainer.evaluate(eval_dataset=eval_dataset)
+            tmp = model.num_k
+            model.num_k = 1     # Important! During inference, no mixing
+            print(f'Eval model, k = {model.num_k}')
             trainer.compute_metrics = build_compute_metrics_fn(eval_dataset.args.task_name)
             eval_result = trainer.evaluate(eval_dataset=eval_dataset)
-            # eval_result = trainer.evaluate_mi(eval_dataset=eval_dataset)
+            model.num_k = tmp 
 
             output_eval_file = os.path.join(
                 training_args.output_dir, f"eval_results_{eval_dataset.args.task_name}-{eval_dataset.mode}.txt"

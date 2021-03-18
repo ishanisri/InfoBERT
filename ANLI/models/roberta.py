@@ -280,12 +280,43 @@ class RobertaForSequenceClassification(BertPreTrainedModel):
     config_class = RobertaConfig
     base_model_prefix = "roberta"
 
+    def generate_mask_pool(self):
+        if self.num_sigma <= 0:
+            return
+        np.random.seed(7)
+        size = [self.num_sigma, 768]
+        self.mask_pool = torch.randint(2, size=size) * 2 - 1
+
+    def apply_mask(self, input_ids):
+        if self.num_sigma == 0:
+            return input_ids
+        elif self.num_sigma == -1:
+            mask_pad = torch.randint(
+                2, size=input_ids.shape) * 2 - 1       # Random sign
+            input_ids = input_ids * mask_pad.float().to(device)
+        else:
+            l = len(input_ids)
+            lst = np.random.randint(self.num_sigma, size=l)
+            mask_pad = torch.stack([self.mask_pool[i] for i in lst]).to(device)
+            input_ids = input_ids * mask_pad.float()
+        return input_ids
+
     def __init__(self, config):
         super().__init__(config)
         self.num_labels = config.num_labels
+        # For TextHide
+        self.num_sigma = config.num_sigma
+        self.num_k = config.num_k
+        self.small_cls = config.small_cls
 
-        self.roberta = RobertaModel(config)
-        self.classifier = RobertaClassificationHead(config)
+        self.classifier = RobertaClassificationHead(config, small_cls=self.small_cls)
+        self.init_weights()
+
+        self.generate_mask_pool()
+        print('TextHide parameters:', self.num_sigma, self.num_k)
+
+        #self.roberta = RobertaModel(config)
+        #self.classifier = RobertaClassificationHead(config)
 
     @add_start_docstrings_to_callable(ROBERTA_INPUTS_DOCSTRING.format("(batch_size, sequence_length)"))
     def forward(
@@ -344,8 +375,29 @@ class RobertaForSequenceClassification(BertPreTrainedModel):
             head_mask=head_mask,
             inputs_embeds=inputs_embeds,
         )
-        sequence_output = outputs[0]
+        # TextHide
+
+        sequence_output_pub = None
+        if input_ids_pub is not None:
+            input_ids_pub = input_ids_pub[:len(input_ids)]  
+            #token_type_ids_pub = token_type_ids_pub[:len(token_type_ids)] # truncate to match size
+            outputs_pub = self.roberta(
+                input_ids_pub,
+                attention_mask=attention_mask,
+                token_type_ids=token_type_ids_pub,
+                position_ids=position_ids,
+            )
+            sequence_output_pub = outputs_pub[0][:,0,:]
+
+        if labels is not None:
+            sequence_output, mix_labels, lams = mixup(
+                sequence_output, labels, k=self.num_k, embeds_help=sequence_output_pub)
+        
+        sequence_output = self.apply_mask(sequence_output)
         logits = self.classifier(sequence_output)
+
+        #sequence_output = outputs[0]
+        #logits = self.classifier(sequence_output)
 
         outputs = (logits,) + outputs[2:]
         if labels is not None:
