@@ -306,7 +306,7 @@ class RobertaForSequenceClassification(BertPreTrainedModel):
         self.num_labels = config.num_labels
         self.roberta = RobertaModel(config)
 
-        print("config")
+        print(config)
 
         # For TextHide
         self.num_sigma = config.num_sigma
