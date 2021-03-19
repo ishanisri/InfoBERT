@@ -4,7 +4,7 @@ import logging
 from dataclasses import dataclass, field
 from typing import Any, Dict, Optional, Tuple
 
-from transformers.file_utils import cached_property, is_torch_available, torch_required
+from models.file_utils import cached_property, is_torch_available, torch_required
 
 
 if is_torch_available():

@@ -59,19 +59,42 @@ from .tokenization_bert import BasicTokenizer, BertTokenizer, BertTokenizerFast,
 from .tokenization_roberta import RobertaTokenizer, RobertaTokenizerFast
 # from .tokenization_t5 import T5Tokenizer
 # from .tokenization_transfo_xl import TransfoXLCorpus, TransfoXLTokenizer, TransfoXLTokenizerFast
-# from .tokenization_utils import PreTrainedTokenizer
-# from .tokenization_utils_base import (
-#     BatchEncoding,
-#     CharSpan,
-#     PreTrainedTokenizerBase,
-#     SpecialTokensMixin,
-#     TensorType,
-#     TokenSpan,
-# )
-# from .tokenization_utils_fast import PreTrainedTokenizerFast
+from .tokenization_utils import PreTrainedTokenizer
+from .tokenization_utils_base import (
+     BatchEncoding,
+     CharSpan,
+     PreTrainedTokenizerBase,
+     SpecialTokensMixin,
+     TensorType,
+     TokenSpan,
+)
+from .tokenization_utils_fast import PreTrainedTokenizerFast
 # from .tokenization_xlm import XLMTokenizer
 # from .tokenization_xlm_roberta import XLMRobertaTokenizer
 # from .tokenization_xlnet import SPIECE_UNDERLINE, XLNetTokenizer
+
+# Files and general utilities
+from .file_utils import (
+    CONFIG_NAME,
+    MODEL_CARD_NAME,
+    PYTORCH_PRETRAINED_BERT_CACHE,
+    PYTORCH_TRANSFORMERS_CACHE,
+    TF2_WEIGHTS_NAME,
+    TF_WEIGHTS_NAME,
+    TRANSFORMERS_CACHE,
+    WEIGHTS_NAME,
+    add_end_docstrings,
+    add_start_docstrings,
+    cached_path,
+    is_apex_available,
+    is_psutil_available,
+    is_py3nvml_available,
+    is_tf_available,
+    is_torch_available,
+    is_torch_tpu_available,
+)
+
+from .modeling_utils import PreTrainedModel, prune_layer, Conv1D, apply_chunking_to_forward
 
 from .modeling_auto import (
         AutoModel,
@@ -307,5 +330,19 @@ from .roberta import (
     #     RETRIBERT_PRETRAINED_MODEL_ARCHIVE_LIST,
     # )
 
+from .hf_argparser import HfArgumentParser
+
+from .trainer_utils import EvalPrediction, set_seed
+
+# Optimization
+from .optimization import (
+        AdamW,
+        get_constant_schedule,
+        get_constant_schedule_with_warmup,
+        get_cosine_schedule_with_warmup,
+        get_cosine_with_hard_restarts_schedule_with_warmup,
+        get_linear_schedule_with_warmup,
+        get_polynomial_decay_schedule_with_warmup,
+)
 
 

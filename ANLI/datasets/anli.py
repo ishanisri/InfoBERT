@@ -9,11 +9,11 @@ import torch
 from filelock import FileLock
 from torch.utils.data.dataset import Dataset
 
-from transformers import RobertaTokenizer, RobertaTokenizerFast
-from transformers import PreTrainedTokenizer
-from transformers import XLMRobertaTokenizer
+from models.tokenization_roberta import RobertaTokenizer, RobertaTokenizerFast
+from models.tokenization_utils import PreTrainedTokenizer
+#from transformers import XLMRobertaTokenizer
 from processors.anli import glue_convert_examples_to_features, glue_output_modes, glue_processors
-from transformers import InputFeatures
+from processors.utils import InputFeatures
 
 
 logger = logging.getLogger(__name__)
@@ -95,7 +95,7 @@ class GlueDataset(Dataset):
         if args.task_name in anli_datasets and tokenizer.__class__ in (
             RobertaTokenizer,
             RobertaTokenizerFast,
-            XLMRobertaTokenizer,
+            #XLMRobertaTokenizer,
         ):
             # HACK(label indices are swapped in RoBERTa pretrained model)
             label_list[1], label_list[2] = label_list[2], label_list[1]

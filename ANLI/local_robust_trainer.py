@@ -19,10 +19,10 @@ from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data.sampler import RandomSampler, Sampler, SequentialSampler
 from tqdm.auto import tqdm, trange
 
-from transformers import DataCollator, DefaultDataCollator
-from transformers import PreTrainedModel
-from transformers import AdamW, get_linear_schedule_with_warmup
-from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR, EvalPrediction, PredictionOutput, TrainOutput
+from data.data_collator import DataCollator, default_data_collator
+from models.modeling_utils import PreTrainedModel
+from models.optimization import AdamW, get_linear_schedule_with_warmup
+from models.trainer_utils import PREFIX_CHECKPOINT_DIR, EvalPrediction, PredictionOutput, TrainOutput
 from advtraining_args import TrainingArguments, is_tpu_available
 
 from MI_estimators import CLUB, InfoNCE, CLUBv2
@@ -198,7 +198,7 @@ class Trainer:
         if data_collator is not None:
             self.data_collator = data_collator
         else:
-            self.data_collator = DefaultDataCollator()
+            self.data_collator = default_data_collator
         self.train_dataset = train_dataset
         self.eval_dataset = eval_dataset
         self.compute_metrics = compute_metrics
@@ -248,7 +248,7 @@ class Trainer:
             self.train_dataset,
             batch_size=self.args.train_batch_size,
             sampler=train_sampler,
-            collate_fn=self.data_collator.collate_batch,
+            collate_fn=self.data_collator,
         )
 
         return data_loader

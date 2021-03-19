@@ -27,16 +27,14 @@ import torch
 
 from models.configuration_auto import AutoConfig
 from models.tokenization_auto import AutoTokenizer
-from transformers import EvalPrediction
+from models.trainer_utils import EvalPrediction
 from models.modeling_auto import AutoModelForSequenceClassification
 from MI_estimators import CLUB, CLUBv2, InfoNCE
 from datasets.anli import GlueDataset, GlueDataTrainingArguments as DataTrainingArguments
 from processors.anli import glue_output_modes, glue_tasks_num_labels, glue_compute_metrics
 from local_robust_trainer import Trainer
-from transformers import (
-    HfArgumentParser,
-    set_seed,
-)
+from models.trainer_utils import set_seed
+from models.hf_argparser import HfArgumentParser
 from advtraining_args import TrainingArguments
 
 logger = logging.getLogger(__name__)

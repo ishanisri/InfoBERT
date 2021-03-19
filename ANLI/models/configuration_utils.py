@@ -303,6 +303,7 @@ class PretrainedConfig(object):
         Returns:
             :obj:`Tuple[Dict, Dict]`: The dictionary(ies) that will be used to instantiate the configuration object.
         """
+        logger.info("in comfiggg dict")
         cache_dir = kwargs.pop("cache_dir", None)
         force_download = kwargs.pop("force_download", False)
         resume_download = kwargs.pop("resume_download", False)

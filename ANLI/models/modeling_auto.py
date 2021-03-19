@@ -40,18 +40,8 @@ from .configuration_auto import (
     #XLMRobertaConfig,
     #XLNetConfig,
 )
-from transformers.configuration_marian import MarianConfig
-from transformers.configuration_utils import PretrainedConfig
-from transformers.modeling_albert import (
-    AlbertForMaskedLM,
-    AlbertForPreTraining,
-    AlbertForQuestionAnswering,
-    AlbertForSequenceClassification,
-    AlbertForTokenClassification,
-    AlbertModel,
-)
-from transformers.modeling_bart import BartForConditionalGeneration, BartForSequenceClassification, BartModel
-from models.bert import (
+from .configuration_utils import PretrainedConfig
+from .bert import (
     BertForMaskedLM,
     BertForMultipleChoice,
     BertForPreTraining,
@@ -60,48 +50,7 @@ from models.bert import (
     BertForTokenClassification,
     BertModel,
 )
-from transformers.modeling_camembert import (
-    CamembertForMaskedLM,
-    CamembertForMultipleChoice,
-    CamembertForSequenceClassification,
-    CamembertForTokenClassification,
-    CamembertModel,
-)
-from transformers.modeling_ctrl import CTRLLMHeadModel, CTRLModel
-from transformers.modeling_distilbert import (
-    DistilBertForMaskedLM,
-    DistilBertForQuestionAnswering,
-    DistilBertForSequenceClassification,
-    DistilBertForTokenClassification,
-    DistilBertModel,
-)
-from transformers.modeling_electra import (
-    ElectraForMaskedLM,
-    ElectraForPreTraining,
-    ElectraForSequenceClassification,
-    ElectraForTokenClassification,
-    ElectraModel,
-)
-from transformers.modeling_encoder_decoder import EncoderDecoderModel
-from transformers.modeling_flaubert import (
-    FlaubertForQuestionAnsweringSimple,
-    FlaubertForSequenceClassification,
-    FlaubertModel,
-    FlaubertWithLMHeadModel,
-)
-from transformers.modeling_gpt2 import GPT2LMHeadModel, GPT2Model
-from transformers.modeling_longformer import (
-    LongformerForMaskedLM,
-    LongformerForMultipleChoice,
-    LongformerForQuestionAnswering,
-    LongformerForSequenceClassification,
-    LongformerForTokenClassification,
-    LongformerModel,
-)
-from transformers.modeling_marian import MarianMTModel
-from transformers.modeling_openai import OpenAIGPTLMHeadModel, OpenAIGPTModel
-from transformers.modeling_reformer import ReformerModel, ReformerModelWithLMHead
-from models.roberta import (
+from .roberta import (
     RobertaForMaskedLM,
     RobertaForMultipleChoice,
     RobertaForQuestionAnswering,
@@ -109,31 +58,6 @@ from models.roberta import (
     RobertaForTokenClassification,
     RobertaModel,
 )
-from transformers.modeling_t5 import T5ForConditionalGeneration, T5Model
-from transformers.modeling_transfo_xl import TransfoXLLMHeadModel, TransfoXLModel
-from transformers.modeling_xlm import (
-    XLMForQuestionAnsweringSimple,
-    XLMForSequenceClassification,
-    XLMForTokenClassification,
-    XLMModel,
-    XLMWithLMHeadModel,
-)
-from transformers.modeling_xlm_roberta import (
-    XLMRobertaForMaskedLM,
-    XLMRobertaForMultipleChoice,
-    XLMRobertaForSequenceClassification,
-    XLMRobertaForTokenClassification,
-    XLMRobertaModel,
-)
-from transformers.modeling_xlnet import (
-    XLNetForMultipleChoice,
-    XLNetForQuestionAnsweringSimple,
-    XLNetForSequenceClassification,
-    XLNetForTokenClassification,
-    XLNetLMHeadModel,
-    XLNetModel,
-)
-
 
 logger = logging.getLogger(__name__)
 
@@ -183,6 +107,7 @@ MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING = OrderedDict(
     [
         
         (RobertaConfig, RobertaForSequenceClassification),
+        (BertConfig, BertForSequenceClassification),
         
     ]
 )
@@ -732,6 +657,8 @@ class AutoModelForSequenceClassification:
 
         for config_class, model_class in MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING.items():
             if isinstance(config, config_class):
+                logger.info("checkkk")
+                logger.info(model_class)
                 return model_class.from_pretrained(pretrained_model_name_or_path, *model_args, config=config, **kwargs)
         raise ValueError(
             "Unrecognized configuration class {} for this kind of AutoModel: {}.\n"

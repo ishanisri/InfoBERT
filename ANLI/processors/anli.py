@@ -21,10 +21,10 @@ from enum import Enum
 from typing import List, Optional, Union
 
 from sklearn.metrics import matthews_corrcoef
-from transformers import is_tf_available
-from transformers import PreTrainedTokenizer
-from transformers import DataProcessor, InputExample, InputFeatures
-from transformers.data.metrics import simple_accuracy, acc_and_f1, pearson_and_spearman
+from models.file_utils import is_tf_available
+from models.tokenization_utils import PreTrainedTokenizer
+from  .utils import DataProcessor, InputExample, InputFeatures
+from data.metrics import simple_accuracy, acc_and_f1, pearson_and_spearman
 
 if is_tf_available():
     import tensorflow as tf

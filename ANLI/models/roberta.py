@@ -20,12 +20,13 @@ import logging
 
 import torch
 import torch.nn as nn
+import numpy as np
 from torch.nn import CrossEntropyLoss, MSELoss
 
-from transformers.configuration_roberta import RobertaConfig
-from transformers.file_utils import add_start_docstrings, add_start_docstrings_to_callable
-from models.bert import BertEmbeddings, BertLayerNorm, BertModel, BertPreTrainedModel, gelu, DropoutModel
-from transformers.modeling_utils import create_position_ids_from_input_ids
+from .configuration_roberta import RobertaConfig
+from .file_utils import add_start_docstrings, add_start_docstrings_to_callable
+from .bert import BertEmbeddings, BertLayerNorm, BertModel, BertPreTrainedModel, gelu, DropoutModel
+#from .modeling_utils import create_position_ids_from_input_ids
 
 
 logger = logging.getLogger(__name__)
@@ -304,22 +305,22 @@ class RobertaForSequenceClassification(BertPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
         self.num_labels = config.num_labels
-        self.roberta = RobertaModel(config)
+        #self.roberta = RobertaModel(config)
         logger.info("configgg")
         logger.info(config)
 
         # For TextHide
         self.num_sigma = config.num_sigma
-        #self.num_k = config.num_k
+        self.num_k = config.num_k
         #self.small_cls = config.small_cls
 
-        #self.classifier = RobertaClassificationHead(config, small_cls=self.small_cls)
-        #self.init_weights()
+        self.classifier = RobertaClassificationHead(config)
+        self.init_weights()
 
-        #self.generate_mask_pool()
-        #print('TextHide parameters:', self.num_sigma, self.num_k)
+        self.generate_mask_pool()
+        print('TextHide parameters:', self.num_sigma, self.num_k)
 
-        #self.roberta = RobertaModel(config)
+        self.roberta = RobertaModel(config)
         self.classifier = RobertaClassificationHead(config)
 
     @add_start_docstrings_to_callable(ROBERTA_INPUTS_DOCSTRING.format("(batch_size, sequence_length)"))
