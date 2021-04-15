@@ -1660,7 +1660,7 @@ class PreTrainedTokenizerBase(SpecialTokensMixin):
             for key, value in self.special_tokens_map_extended.items():
                 if isinstance(value, AddedToken):
                     write_dict[key] = value.content #value.__getstate__()
-                elif isinstance(value, #list):
+                elif isinstance(value, list):
                     write_dict[key] = [
                         token.__getstate__() if isinstance(token, AddedToken) else token for token in value
                     ]
