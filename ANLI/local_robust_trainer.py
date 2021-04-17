@@ -272,7 +272,7 @@ class Trainer:
             eval_dataset,
             sampler=sampler,
             batch_size=self.args.eval_batch_size,
-            collate_fn=self.data_collator.collate_batch,
+            collate_fn=self.data_collator,#.collate_batch,
         )
 
         return data_loader
